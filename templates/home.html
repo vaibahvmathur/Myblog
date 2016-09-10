@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+{%load staticfiles%}
+
+<html lang='en'>
+    <head>
+        <title>My Blog</title>
+        <meta name="description" content="My Bolg Home Page"/>
+        <meta name='Author' content='Vaibhav'/>
+        <meta charset="utf-8;" />
+        <script src='{% static "local_files\js\jquery-3.1.0.js" %}'></script>
+        <link rel="stylesheet" href='{% static "font-awesome\css\font-awesome.min.css" %}'/>
+        <link rel="stylesheet" href='{% static "bootstrap\css\bootstrap.css" %}' />
+        <link rel="stylesheet" href='{% static "local_files\css\home.css" %}' />
+        <script src="{% static "local_files\js\infinite_scroll.js" %}"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    
+    <body>
+        <div class="container">
+            <div class="row" id="BodyContainer">
+                <div class="col-md-5">
+                    <img  id="Logo" class="img-thumbnail img-responsive" height="100px" width="100px" src='{% static "local_files\logo.jpg" %}' alt="Vaibhav"/>
+                </div>
+                <div class="navbar navbar-default col-md-5" id="HomePageNavBar">
+                    <ul class="nav navbar-nav nav-hover" id="HomePageNavItem">
+                        <li ><a href='home' class="btn btn-font-size btn-border btn-md link-align">Home</a></li >
+                        <li ><a href='home' class="btn btn-font-size btn-border btn-md link-align">About</a></li>
+                        <li ><a href='home' class="btn btn-font-size btn-border btn-md link-align">Contact</a></li>
+                        <li ><a class="btn btn-border btn-font-size btn-md link-align" data-toggle="modal" data-target="#LoginModal" >Login</a></li>
+                    </ul>
+                </div>
+            </div>
+            {% block content %}
+            {% endblock %}
+        </div>
+        <div id="LoginModal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-size">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Login</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="control-group">
+                                <label class="control-label" for="uname">UserName*</label>
+                                <div class="controls">
+                                    <input id="uname" class="form-control input-xlarge" type="text" placeholder=" " name="uname" required>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="pwd">Password*</label>
+                                <div class="controls">
+                                    <input id="pwd" class="form-control input-xlarge" type="password" placeholder=" " name="pwd" required>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" checked="checked">Remember me</label>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                    <span>
+                                        <button type="submit" class="btn btn-warning" tabindex="-1">Login</button>
+                                    </span>
+                                    <span>
+                                        <button type="submit" class="btn btn-success" tabindex="-1" data-dismiss="modal" data-toggle="modal" data-target="#RegisterModal" >Register</button>
+                                    </span>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="RegisterModal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-size">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Registration</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" action='' method="POST">
+                            <div class="control-group">
+                                <label class="control-label" for="usrname">User Name*</label>
+                                <div class="controls">
+                                    <input id="usrname" class="input-xlarge form-control" type="text" placeholder="" name="usrname" required>
+                                    <button class="btn btn-info set-margin-top" id='check_username_availability' >Check Availability</button>
+                                    <span class="arrow-up" ></span>
+                                    <label class="user-exist-msg">Username does not exist</label>
+                                </div>
+                                <label class="control-label" for="fname">First Name*</label>
+                                <div class="controls">
+                                    <input id="fname" class="input-xlarge form-control" type="text" placeholder="" name="fname" required>
+                                </div>
+                                <label class="control-label" for="lname">last Name</label>
+                                <div class="controls">
+                                    <input id="lname" class="input-xlarge form-control" type="text" placeholder="" name="lname" >
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="email">E-mail</label>
+                                <div class="controls">
+                                    <input type="text" id="email" name="email" placeholder="" class="input-xlarge form-control">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="password">Password*</label>
+                                <div class="controls">
+                                    <input type="password" id="password" name="password" placeholder="" class="input-xlarge form-control" required>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label"  for="password_confirm">Password (Confirm)*</label>
+                                <div class="controls">
+                                    <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge form-control">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">
+                                    <button class="btn btn-success" tabindex="-1">Register</button>
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
