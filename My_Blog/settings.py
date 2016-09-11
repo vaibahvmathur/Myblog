@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'My_Blog.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql.connector.django',
+        'ENGINE': 'mysql.connector.django', #django.db.backends.mysql
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'NAME': 'myblog',
@@ -125,8 +125,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
-
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
