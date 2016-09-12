@@ -11,7 +11,7 @@
         <link rel="stylesheet" href='{% static "font-awesome\css\font-awesome.min.css" %}'/>
         <link rel="stylesheet" href='{% static "bootstrap\css\bootstrap.css" %}' />
         <link rel="stylesheet" href='{% static "local_files\css\home.css" %}' />
-        <script src="{% static "local_files\js\infinite_scroll.js" %}"></script>
+        <script src="{% static "local_files\js\local-jquery.js" %}"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
     
@@ -23,9 +23,9 @@
                 </div>
                 <div class="navbar navbar-default col-md-5" id="HomePageNavBar">
                     <ul class="nav navbar-nav nav-hover" id="HomePageNavItem">
-                        <li ><a href='home' class="btn btn-font-size btn-border btn-md link-align">Home</a></li >
-                        <li ><a href='home' class="btn btn-font-size btn-border btn-md link-align">About</a></li>
-                        <li ><a href='home' class="btn btn-font-size btn-border btn-md link-align">Contact</a></li>
+                        <li ><a href='/' class="btn btn-font-size btn-border btn-md link-align">Home</a></li >
+                        <li ><a href='/' class="btn btn-font-size btn-border btn-md link-align">About</a></li>
+                        <li ><a href='/' class="btn btn-font-size btn-border btn-md link-align">Contact</a></li>
                         <li ><a class="btn btn-border btn-font-size btn-md link-align" data-toggle="modal" data-target="#LoginModal" >Login</a></li>
                     </ul>
                 </div>
@@ -41,25 +41,25 @@
                         <h4 class="modal-title">Login</h4>
                     </div>
                     <div class="modal-body">
-                        <form class="form-horizontal">
-                            <div class="control-group">
-                                <label class="control-label" for="uname">UserName*</label>
-                                <div class="controls">
-                                    <input id="uname" class="form-control input-xlarge" type="text" placeholder=" " name="uname" required>
+                        <form class="form-horizontal form-hover">
+                            <div>
+                                <label for="uname">UserName*</label>
+                                <div>
+                                    <input id="uname" class="input-xlarge form-control" type="text" placeholder=" " name="uname" required>
                                 </div>
                             </div>
-                            <div class="control-group">
-                                <label class="control-label" for="pwd">Password*</label>
-                                <div class="controls">
-                                    <input id="pwd" class="form-control input-xlarge" type="password" placeholder=" " name="pwd" required>
+                            <div >
+                                <label for="pwd">Password*</label>
+                                <div>
+                                    <input id="pwd" class="input-xlarge form-control" type="password" placeholder=" " name="pwd" required>
                                 </div>
                             </div>
-                            <div class="control-group">
+                            <div>
                                 <div class="checkbox">
                                     <label><input type="checkbox" checked="checked">Remember me</label>
                                 </div>
                             </div>
-                            <div class="control-group">
+                            <div>
                                     <span>
                                         <button type="submit" class="btn btn-warning" tabindex="-1">Login</button>
                                     </span>
@@ -83,47 +83,49 @@
                         <h4 class="modal-title">Registration</h4>
                     </div>
                     <div class="modal-body">
-                        <form class="form-horizontal" action='' method="POST">
-                            <div class="control-group">
-                                <label class="control-label" for="usrname">User Name*</label>
-                                <div class="controls">
+                        <form class="register-form form-horizontal form-hover" action="{% url 'Register' %}" method="POST">
+                            <div>
+                                <label for="usrname">User Name*</label>
+                                <div>
                                     <input id="usrname" class="input-xlarge form-control" type="text" placeholder="" name="usrname" required>
                                     <button class="btn btn-info set-margin-top" id='check_username_availability' >Check Availability</button>
-                                    <span class="arrow-up" ></span>
-                                    <label class="user-exist-msg">Username does not exist</label>
+                                    <span class="user-exist-tag">
+                                        <span class="arrow-up" ></span>
+                                        <label class="user-exist-msg">Username not available</label>
+                                    </span>
                                 </div>
-                                <label class="control-label" for="fname">First Name*</label>
-                                <div class="controls">
+                                <label for="fname">Name*</label>
+                                <div>
                                     <input id="fname" class="input-xlarge form-control" type="text" placeholder="" name="fname" required>
-                                </div>
-                                <label class="control-label" for="lname">last Name</label>
-                                <div class="controls">
-                                    <input id="lname" class="input-xlarge form-control" type="text" placeholder="" name="lname" >
                                 </div>
                             </div>
 
-                            <div class="control-group">
-                                <label class="control-label" for="email">E-mail</label>
-                                <div class="controls">
-                                    <input type="text" id="email" name="email" placeholder="" class="input-xlarge form-control">
+                            <div>
+                                <label for="email">E-mail*</label>
+                                <div>
+                                    <input type="email" id="email" name="email" placeholder="" class="input-xlarge form-control" required>
                                 </div>
                             </div>
-                            <div class="control-group">
-                                <label class="control-label" for="password">Password*</label>
-                                <div class="controls">
+                            <div>
+                                <label for="password">Password*</label>
+                                <div>
                                     <input type="password" id="password" name="password" placeholder="" class="input-xlarge form-control" required>
                                 </div>
                             </div>
-                            <div class="control-group">
-                                <label class="control-label"  for="password_confirm">Password (Confirm)*</label>
-                                <div class="controls">
-                                    <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge form-control">
+                            <div>
+                                <label for="password_confirm">Password (Confirm)*</label>
+                                <div>
+                                    <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge form-control" required>
                                 </div>
                             </div>
-                            <div class="control-group">
-                                <label class="control-label">
-                                    <button class="btn btn-success" tabindex="-1">Register</button>
+                            <div>
+                                <label class="set-margin-top">
+                                    <button class="btn btn-success register-form-submit" tabindex="-1">Register</button>
                                 </label>
+                                <span class="password-mismatch-tag">
+                                        <span class="arrow-up-pass" ></span>
+                                        <label class="pass-mismatch">Password Not matched</label>
+                                </span>
                             </div>
                         </form>
                     </div>

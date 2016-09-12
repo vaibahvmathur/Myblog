@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import django.contrib.auth
+django.contrib.auth.LOGIN_URL = '/'
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -48,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'My_Blog.urls'
@@ -72,6 +76,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
+                'django.core.context_processors.csrf'
             ],
         },
     },
@@ -85,7 +91,7 @@ WSGI_APPLICATION = 'My_Blog.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql.connector.django', #django.db.backends.mysql
+        'ENGINE': 'mysql.connector.django',  #django.db.backends.mysql
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'NAME': 'myblog',
@@ -129,7 +135,6 @@ USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
-
 STATIC_URL = '/static/'
 STATIC_ROOT = STATIC_URL
 
@@ -138,6 +143,10 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-path_1= os.getcwd()+r'/static'
-STATICFILES_DIRS =(path_1,)
-TEMPLATE_CONTEXT_PROCESSORS = ['django.core.context_processors.static',]
+path_1 = os.getcwd() + r'/static'
+STATICFILES_DIRS = (path_1,)
+TEMPLATE_CONTEXT_PROCESSORS = ['django.core.context_processors.static', ]
+
+ENV_PATH = os.path.abspath(os.path.dirname(__file__))
+MEDIA_ROOT = os.path.join(ENV_PATH, 'media/')
+

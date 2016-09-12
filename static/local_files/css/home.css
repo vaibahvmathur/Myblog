@@ -45,12 +45,40 @@
 .modal-size{
     width:30%;
 }
-.user-exist-msg{
-    font-size: medium;
+
+.set-margin-top{
+    margin-top: 10px;
+}
+.form-hover input:hover{
+    background-color: #efefef;
+}
+.pass-mismatch{
+    font-size: small;
     margin-left: 12%;
-    margin-top: 8px;
+    margin-top: 7px;
     border: 2px solid;
-    border-radius: 12px;
+    border-radius: 7px;
+    position: absolute;
+    left: 31%;
+    padding: 5px;
+    border-color: red;
+    color: red;
+}
+.arrow-up-pass {
+  position: absolute;
+  left: 46%;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid red;
+}
+.user-exist-msg{
+    font-size: small;
+    margin-left: 12%;
+    margin-top: 7px;
+    border: 2px solid;
+    border-radius: 7px;
     position: absolute;
     left: 31%;
     padding: 5px;
@@ -64,6 +92,27 @@
   border-right: 8px solid transparent;
   border-bottom: 8px solid black;
 }
-.set-margin-top{
-    margin-top: 10px;
+.user-msg-success{
+    border-color: green;
+    color: green;
+}
+.arrow-up-success {
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid green;
+}
+.user-msg-error{
+    border-color: red;
+    color: red;
+
+}
+.arrow-up-error {
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid red;
+}
+
+.user-exist-tag, .password-mismatch-tag{
+
+    display: none;
 }
