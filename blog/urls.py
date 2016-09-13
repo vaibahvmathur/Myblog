@@ -18,6 +18,6 @@ from blog.views import *
 urlpatterns = [
     url(r'^$', HomePage, name='HomePage'),
     url(r'^home', HomePage, name='HomePage'),
-    url(r'^register', Register, name='Register'),
+    url(r'^Register', Register, name='Register'),
     url(r'^check_avail', check_avail, name='check_avail'),
 ]

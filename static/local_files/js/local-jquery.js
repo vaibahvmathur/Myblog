@@ -56,7 +56,7 @@ $(document).ready(function() {
                 usernamematch = "error"
             }
             if(availability == "success" && Passmatch == "success" && Emailmatch == "success" && usernamematch == "success")
-            alert("all is fine");
+                saveRegisterdata(User_name.val(),sEmail.val(),firstname.val(),pwd.val())
         });
         return false;
     });
@@ -64,7 +64,8 @@ $(document).ready(function() {
     $("#check_username_availability").on("click", function() {
         var User_name = $(this).closest(".register-form").find("#usrname");
         if(User_name.val() == ""){
-            UserAvailableMessage("empty")
+            UserAvailableMessage(
+                "empty")
         }
         else{
             check_availability(User_name.val());
@@ -72,6 +73,43 @@ $(document).ready(function() {
         return false;
     });
 });//document.ready function
+
+    function onFocusToUsername(element) {
+        $(element).closest("div").find(".user-exist-tag").addClass("hidden");
+    }
+function saveRegisterdata(username,email,name,password){
+    $.ajax({
+        type: "POST", 		//GET or POST or PUT or DELETE verb
+        url: "home/Register", 		// Location of the service
+        data:
+        {
+            'Username': username,
+            'Email': email,
+            'Name': name,
+            'Password': password
+        }, 		//Data sent to server
+        dataType: "json" 	//Expected data format from server
+    }).done(function(json) {//On Successful service call
+        var result = json.resultmessage;
+        if(result == "success"){
+            $("#reg-form-id")[0].reset();
+            $('#reg-close').trigger('click');
+            $('.success-message strong').html("Registered Successfully")
+            $('.success-message').css('display','block')
+        }
+        else if( result == "error" ){
+
+        }
+        else{
+
+        }
+
+    }).fail(function() {
+        alert("this is fail register")
+    });
+
+}
+
 
 function check_availability(user_name, callback){
     var msg = '';
@@ -87,10 +125,12 @@ function check_availability(user_name, callback){
             var result = json.get_avail;
             UserAvailableMessage(result);
             msg = result;
+            if(callback)
             callback(msg);
     }).fail(function() {
             UserAvailableMessage("error");
             msg =  'error';
+            if(callback)
             callback(msg);
     });
 
@@ -127,6 +167,7 @@ function UserAvailableMessage(message){
         $( ".user-exist-tag").css("display","initial");
         $( ".user-exist-msg" ).html("Username Not Available")
     }
+    $( ".user-exist-tag").removeClass("hidden");
 }
 
 
