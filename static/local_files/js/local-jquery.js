@@ -11,37 +11,53 @@ $(document).ready(function() {
     /* register form submit */
     $(".register-form-submit").on("click", function(){
         var availability = "";
-        var match = "";
+        var Passmatch = "";
+        var Emailmatch = ""
+        var usernamematch = ""
+        var element = $(this);
         var User_name = $(this).closest(".register-form").find("#usrname");
-        if(User_name.val() == "")
-            {
+        //availability = check_availability(User_name.val());
+        check_availability(User_name.val(), function (message) {
+            availability = message;
+            if (User_name.val() == "") {
                 UserAvailableMessage("empty");
                 availability = "error"
             }
-        else {
-            //availability = check_availability(User_name.val());
-            check_availability(User_name.val(), function (message) {
-                availability = message;
-                if (availability == "success" && match == "success") {
-                    alert("ALL IS FINE");
-                }
-            });
-        }
-        var pwdConf = $(this).closest(".register-form").find("#password_confirm");
-        var pwd = $(this).closest(".register-form").find("#password");
-        if (pwd.val() == "" && pwdConf.val() == "") {
-            PasswordMatch("empty");
-            match = "error";
+            var sEmail = $(element).closest(".register-form").find("#email");
+            var firstname = $(element).closest(".register-form").find("#fname");
+            var pwdConf = $(element).closest(".register-form").find("#password_confirm");
+            var pwd = $(element).closest(".register-form").find("#password");
+            if (pwd.val() == "" && pwdConf.val() == "") {
+                PasswordMatch("empty");
+                Passmatch = "error";
 
-        }
-        else if (pwd.val() != pwdConf.val()) {
-            PasswordMatch("error");
-            match = "error";
-        }
-        else {
-            PasswordMatch("success");
-            match = "success";
-        }
+            }
+            else if (pwd.val() != pwdConf.val()) {
+                PasswordMatch("error");
+                Passmatch = "error";
+            }
+            else {
+                PasswordMatch("success");
+                Passmatch = "success";
+            }
+
+            if (validateEmail(sEmail.val())) {
+                Emailmatch = "success"
+            }
+            else {
+                Emailmatch = "error"
+            }
+            if (firstname.val() != "" ){
+                checkNamecss('success')
+                usernamematch = "success"
+            }
+            else{
+                checkNamecss('error')
+                usernamematch = "error"
+            }
+            if(availability == "success" && Passmatch == "success" && Emailmatch == "success" && usernamematch == "success")
+            alert("all is fine");
+        });
         return false;
     });
     /* Check Availability */
@@ -125,5 +141,26 @@ function PasswordMatch(message){
     }
     else{
         $(".password-mismatch-tag").css("display", "none");
+    }
+}
+
+function validateEmail(sEmail) {
+    var filter = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
+    if (filter.test(sEmail)) {
+        $("#email").css("border", "1px solid #ccc");
+        return true;
+    }
+    else {
+        $("#email").css("border-color", "red");
+        return false;
+    }
+}
+
+function checkNamecss(choice){
+    if (choice=='success') {
+        $("#fname").css("border", "1px solid #ccc");
+    }
+    else {
+        $("#fname").css("border-color", "red");
     }
 }
