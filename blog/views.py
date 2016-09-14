@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from models import *
 import json
-from django.core.exceptions import *
+
 
 def HomePage(request):
     return render_to_response(

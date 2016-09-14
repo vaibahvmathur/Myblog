@@ -16,8 +16,8 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 urlpatterns = [
-    url(r'^$', include('blog.urls')),
-    url(r'^home/', include('blog.urls')),
-    url(r'^check_avail', include('blog.urls')),
-    url(r'^admin/', admin.site.urls),
+    # url(r'^$', include('blog.urls')),
+    # url(r'^home/', include('blog.urls')),
+    # url(r'^check_avail', include('blog.urls')),
+    url(r'^admin/', include(admin.site.urls)),
 ]
