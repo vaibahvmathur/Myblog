@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
     /* Infinite Scroll */
     var win = $(window);
@@ -80,7 +81,7 @@ $(document).ready(function() {
 function saveRegisterdata(username,email,name,password){
     $.ajax({
         type: "POST", 		//GET or POST or PUT or DELETE verb
-        url: "home/Register", 		// Location of the service
+        url: "Register", 		// Location of the service
         data:
         {
             'Username': username,
@@ -92,10 +93,8 @@ function saveRegisterdata(username,email,name,password){
     }).done(function(json) {//On Successful service call
         var result = json.resultmessage;
         if(result == "success"){
-            $("#reg-form-id")[0].reset();
-            $('#reg-close').trigger('click');
-            $('.success-message strong').html("Registered Successfully")
-            $('.success-message').css('display','block')
+            //location.href = "{% url blog%}"
+            window.location = "blog";
         }
         else if( result == "error" ){
 
@@ -115,7 +114,7 @@ function check_availability(user_name, callback){
     var msg = '';
     $.ajax({
         type: "POST", 		//GET or POST or PUT or DELETE verb
-        url: "home/check_avail", 		// Location of the service
+        url: "check_avail", 		// Location of the service
         data:
         {
             'username': user_name

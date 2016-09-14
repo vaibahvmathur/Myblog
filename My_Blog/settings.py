@@ -146,3 +146,6 @@ TEMPLATE_CONTEXT_PROCESSORS = ['django.core.context_processors.static', ]
 
 ENV_PATH = os.path.abspath(os.path.dirname(__file__))
 MEDIA_ROOT = os.path.join(ENV_PATH, 'media/')
+
+LOGIN_URL = '/'
+LOGIN_REDIRECT_URL = '/home/'

@@ -1,12 +1,13 @@
 import datetime
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from models import *
 import json
 
-
+@login_required()
 def HomePage(request):
     return render_to_response(
             'blog_data.html',
@@ -35,7 +36,8 @@ def Register(request):
                     username=Username,
                     password=Password,
                     email=Email,
-                    first_name=Name
+                    first_name=Name,
+                    is_staff=1
             )
             userdetail = UserDetail()
             userdetail.user = user
@@ -57,3 +59,15 @@ def check_avail(request):
             response_dict.update({'get_avail': "success"})
     return HttpResponse(json.dumps(response_dict), content_type='application/javascript')
 
+
+@csrf_exempt
+def registerpage(request):
+    return render_to_response('register.html', {})
+
+@csrf_exempt
+def redirectTohome(request):
+    return HttpResponseRedirect('/home')
+
+@csrf_exempt
+def redirectTologin(request):
+    return HttpResponseRedirect('/admin')

@@ -1,0 +1,90 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}" />
+    {{ form.media }}
+        <script src='{% static "local_files\js\jquery-3.1.0.js" %}'></script>
+        <link rel="stylesheet" href='{% static "font-awesome\css\font-awesome.min.css" %}'/>
+        <link rel="stylesheet" href='{% static "bootstrap\css\bootstrap.css" %}' />
+        <link rel="stylesheet" href='{% static "local_files\css\home.css" %}' />
+        <script src="{% static "local_files\js\local-jquery.js" %}"></script>
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }} login{% endblock %}
+
+{% block usertools %}{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+{% if form.errors and not form.non_field_errors %}
+<p class="errornote">
+{% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+</p>
+{% endif %}
+
+{% if form.non_field_errors %}
+{% for error in form.non_field_errors %}
+<p class="errornote">
+    {{ error }}
+</p>
+{% endfor %}
+{% endif %}
+<div id="content-main">
+    <form id="reg-form-id" class="register-form form-horizontal form-hover">
+        <div>
+            <label for="usrname">User Name*</label>
+            <div>
+                <input id="usrname" class="input-xlarge form-control" type="text" placeholder="" name="usrname" onfocus="onFocusToUsername(this)" required>
+                <button class="btn btn-info set-margin-top" id='check_username_availability' >Check Availability</button>
+                <span class="user-exist-tag">
+                    <span class="arrow-up" ></span>
+                    <label class="user-exist-msg">Username not available</label>
+                </span>
+            </div>
+            <label for="fname">Name*</label>
+            <div>
+                <input id="fname" class="input-xlarge form-control" type="text" placeholder="" name="fname" required>
+            </div>
+        </div>
+
+        <div>
+            <label for="email">E-mail*</label>
+            <div>
+                <input type="email" id="email" name="email" placeholder="" class="input-xlarge form-control" required>
+            </div>
+        </div>
+        <div>
+            <label for="password">Password*</label>
+            <div>
+                <input type="password" id="password" name="password" placeholder="" class="input-xlarge form-control" required>
+            </div>
+        </div>
+        <div>
+            <label for="password_confirm">Password (Confirm)*</label>
+            <div>
+                <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge form-control" required>
+            </div>
+        </div>
+        <div>
+            <label class="set-margin-top">
+                <button class="btn btn-success register-form-submit" tabindex="-1">Register</button>
+            </label>
+            <span class="password-mismatch-tag">
+                    <span class="arrow-up-pass" ></span>
+                    <label class="pass-mismatch">Password Not matched</label>
+            </span>
+        </div>
+    </form>
+    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+</div>
+
+{% endblock %}
