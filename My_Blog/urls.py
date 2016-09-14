@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+import blog.views as blogview
 urlpatterns = [
-    url(r'^$', include('blog.urls')),
+    url(r'^$', blogview.redirectTologin, name='redirectTologin'),
     url(r'^home/', include('blog.urls')),
+    # url(r'^Register', include('blog.urls')),
     url(r'^check_avail', include('blog.urls')),
-    url(r'^admin/', admin.site.urls),
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^registerpage/', include('blog.urls')),
 ]

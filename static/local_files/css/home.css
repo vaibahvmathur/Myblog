@@ -112,7 +112,6 @@
   border-bottom: 8px solid red;
 }
 
-.user-exist-tag, .password-mismatch-tag{
-
+.user-exist-tag, .password-mismatch-tag, .success-message{
     display: none;
 }
