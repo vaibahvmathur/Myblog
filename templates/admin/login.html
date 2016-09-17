@@ -1,3 +1,5 @@
+
+
 {% extends "admin/base_site.html" %}
 {% load i18n static %}
 
@@ -48,31 +50,35 @@
 </p>
 {% endif %}
 
-<form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
-  <div class="form-row">
-    {{ form.username.errors }}
-    {{ form.username.label_tag }} {{ form.username }}
-  </div>
-  <div class="form-row">
-    {{ form.password.errors }}
-    {{ form.password.label_tag }} {{ form.password }}
-    <input type="hidden" name="next" value="{{ next }}" />
-  </div>
-  {% url 'admin_password_reset' as password_reset_url %}
-  {% if password_reset_url %}
-  <div class="password-reset-link">
-    <a href="{{ password_reset_url }}">{% trans 'Forgotten your password or username?' %}</a>
-  </div>
-  {% endif %}
-  <div class="submit-row">
-    <label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}" />
-    <span>
-        <a href="{% url 'registerpage' %}">
-        <button type="button" class="btn btn-success" tabindex="-1" >Register</button>
-        </a>
-    </span>
-  </div>
-</form>
+    <form class="form-horizontal form-hover" action="login"  method="post">
+        <div>
+            <label for="uname">UserName*</label>
+            <div>
+                <input id="uname" class="input-xlarge form-control" type="text" placeholder=" " name="uname" required>
+            </div>
+        </div>
+        <div >
+            <label for="pwd">Password*</label>
+            <div>
+                <input id="pwd" class="input-xlarge form-control" type="password" placeholder=" " name="pwd" required>
+            </div>
+        </div>
+{#        <div>#}
+{#            <div class="checkbox">#}
+{#                <label><input type="checkbox" checked="checked">Remember me</label>#}
+{#            </div>#}
+{#        </div>#}
+        <div class="set-margin-top">
+                <span>
+                    <button type="submit" class="btn btn-warning" tabindex="-1">Login</button>
+                </span>
+                <span>
+                    <a href="{% url 'registerpage' %}">
+                        <button type="button" class="btn btn-success" tabindex="-1" >Free Register</button>
+                    </a>
+                </span>
+        </div>
+    </form>
 
 
 

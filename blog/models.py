@@ -13,3 +13,15 @@ class CommonInfo(models.Model):
 class UserDetail(CommonInfo):
     user = models.ForeignKey(User, default=None)
     post_count = models.IntegerField(default=0)
+
+
+def get_image_path(instance, filename):
+    return 'user_{0}/{1}'.format(instance.blogger.user.username, filename)
+
+
+class BlogData(CommonInfo):
+    blogger = models.ForeignKey(UserDetail, default=None)
+    title = models.CharField(max_length=50)
+    description = models.TextField()
+    image = models.FileField(upload_to=get_image_path)
+    content_url = models.CharField(max_length=100)
