@@ -49,6 +49,9 @@
 .set-margin-top{
     margin-top: 10px;
 }
+.set-margin-top-20{
+    margin-top: 20px;
+}
 .form-hover input:hover{
     background-color: #efefef;
 }
@@ -114,4 +117,10 @@
 
 .user-exist-tag, .password-mismatch-tag, .success-message{
     display: none;
+}
+.width-50 {
+    width: 50%;
+}
+.width-30 {
+    width: 30%;
 }

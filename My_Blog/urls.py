@@ -23,4 +23,8 @@ urlpatterns = [
     url(r'^check_avail', include('blog.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^registerpage/', include('blog.urls')),
+    url(r'^admin/login', blogview.login_auth, name="login_auth"),
+    url(r'^logout', blogview.logout_auth, name="logout_auth"),
+    url(r'^addblog', blogview.addblog, name='addblog'),
+    url(r'^saveblog', blogview.saveblog, name='saveblog'),
 ]

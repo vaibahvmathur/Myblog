@@ -12,7 +12,9 @@
         <link rel="stylesheet" href='{% static "bootstrap\css\bootstrap.css" %}' />
         <link rel="stylesheet" href='{% static "local_files\css\home.css" %}' />
         <script src="{% static "local_files\js\local-jquery.js" %}"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{#        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>#}
+        {% block script %}
+            {% endblock %}
     </head>
     
     <body>
@@ -21,12 +23,13 @@
                 <div class="col-md-5">
                     <img  id="Logo" class="img-thumbnail img-responsive" height="100px" width="100px" src='{% static "local_files\logo.jpg" %}' alt="Vaibhav"/>
                 </div>
-                <div class="navbar navbar-default col-md-5" id="HomePageNavBar">
+                <div class="navbar navbar-default col-md-6" id="HomePageNavBar">
                     <ul class="nav navbar-nav nav-hover" id="HomePageNavItem">
-                        <li ><a href='/' class="btn btn-font-size btn-border btn-md link-align">Home</a></li >
-                        <li ><a href='/' class="btn btn-font-size btn-border btn-md link-align">About</a></li>
-                        <li ><a href='/' class="btn btn-font-size btn-border btn-md link-align">Contact</a></li>
-                        <li ><a class="btn btn-border btn-font-size btn-md link-align" data-toggle="modal" data-target="#LoginModal" >Login</a></li>
+                        <li ><a href='/home' class="btn btn-font-size btn-border btn-md link-align">Home</a></li >
+                        <li ><a href='/addblog' class="btn btn-font-size btn-border btn-md link-align">Add Blog</a></li>
+                        <li ><a href='/home' class="btn btn-font-size btn-border btn-md link-align">Contact</a></li>
+                        <li ><a href='/logout' class="btn btn-font-size btn-border btn-md link-align">Logout</a></li>
+{#                        <li ><a class="btn btn-border btn-font-size btn-md link-align" data-toggle="modal" data-target="#LoginModal" >Login</a></li>#}
                     </ul>
                 </div>
             </div>
