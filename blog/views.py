@@ -12,14 +12,20 @@ import os
 path_blog = settings.BLOG_CONTENTS
 @login_required()
 def HomePage(request):
-    return render_to_response(
-            'blog_data.html',
-            dict(
-                    Admin='vaibhav',
-                    time=datetime.datetime.now(),
-                    comment_count=str(0)+'comment'
-            )
-    )
+    blog_data = []
+    posts = BlogData.objects.all()
+    for post in posts:
+        temp_data = {}
+        temp_data.update(
+                name=post.blogger.user.username,
+                time=post.created_date,
+                title=post.title,
+                description=post.description,
+                comment_count=str(post.blogger.post_count) + ' comment',
+                cover_image_url=post.image_url,
+                content_url=post.content_url)
+        blog_data.append(temp_data)
+    return render_to_response('blog_data.html', {'blog_data': blog_data})
 
 
 @csrf_exempt
@@ -31,9 +37,6 @@ def Register(request):
         Name = request.POST['Name']
         try:
             User.objects.get(Username=Username)
-            message = "already exist"
-        # except MultiValueDictKeyError:
-        #     message = "error"
         except:
             user = User.objects.create_user(
                     username=Username,
@@ -123,7 +126,7 @@ def saveblog(request):
         extention_content = '.html'
         file_name = str(title) + '_' + today + extention_content
         path_to_dir = str(logged_user_name) + '/' + str(post_number)
-        path_to_post_number = "templates/blog_pages/" + path_to_dir
+        path_to_post_number = "blog_pages/" + path_to_dir
         path_to_user_blog = path_to_post_number + '/' + str(file_name)
         if not os.path.exists(path_to_post_number):
             os.makedirs(path_to_post_number)
