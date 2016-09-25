@@ -8,9 +8,6 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-# import django.contrib.auth
-# django.contrib.auth.LOGIN_URL = '/'
-
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -74,7 +71,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
-                # 'django.core.context_processors.csrf'
             ],
         },
     },
@@ -141,10 +137,10 @@ STATICFILES_FINDERS = (
 )
 
 path_1 = os.getcwd() + r'/static'
-STATICFILES_DIRS = (path_1,)
+STATICFILES_DIRS = (path_1, )
 TEMPLATE_CONTEXT_PROCESSORS = ['django.core.context_processors.static', ]
 MEDIA_URL = '/templates/blog_pages/'
-MEDIA_ROOT = MEDIA_URL   #os.path.join(BASE_DIR, '/templates/blog_pages/')
+MEDIA_ROOT = MEDIA_URL
 BLOG_CONTENTS = '/templates/blog_pages/'
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/home/'

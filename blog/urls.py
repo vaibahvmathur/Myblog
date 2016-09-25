@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from blog.views import *
+from django.conf import settings
 urlpatterns = [
     url(r'^$', HomePage, name='Homepage'),
     url(r'^registerpage/Register', Register, name='Register'),
