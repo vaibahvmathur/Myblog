@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+import os
 
 class CommonInfo(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
@@ -16,12 +16,14 @@ class UserDetail(CommonInfo):
 
 
 def get_image_path(instance, filename):
-    return 'user_{0}/{1}'.format(instance.blogger.user.username, filename)
-
+    rel_path = 'templates/blog_pages/{0}/{1}/{2}'.format(instance.blogger.user.username, instance.blogger.post_count, filename)
+    # path = os.path.dirname(rel_path)
+    # return 'templates/blog_pages/{0}/{1}/{2}'.format(instance.blogger.user.username, instance.blogger.post_count, filename)
+    return rel_path
 
 class BlogData(CommonInfo):
     blogger = models.ForeignKey(UserDetail, default=None)
     title = models.CharField(max_length=50)
     description = models.TextField()
-    image = models.FileField(upload_to=get_image_path)
     content_url = models.CharField(max_length=100)
+    image_url = models.CharField(max_length=100, blank=True, null=True, default=None)
