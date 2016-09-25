@@ -143,8 +143,9 @@ STATICFILES_FINDERS = (
 path_1 = os.getcwd() + r'/static'
 STATICFILES_DIRS = (path_1,)
 TEMPLATE_CONTEXT_PROCESSORS = ['django.core.context_processors.static', ]
-
-MEDIA_ROOT = os.path.join(BASE_DIR, '/templates/blog_pages')
-BLOG_CONTENTS = os.path.join(BASE_DIR, '/templates/blog_pages')
+MEDIA_URL = '/templates/blog_pages/'
+MEDIA_ROOT = MEDIA_URL   #os.path.join(BASE_DIR, '/templates/blog_pages/')
+BLOG_CONTENTS = '/templates/blog_pages/'
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/home/'
+
