@@ -18,6 +18,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 import blog.views as blogview
 from django.conf import settings
+from django.views.generic import TemplateView
+
 urlpatterns = [
     url(r'^$', blogview.redirectTologin, name='redirectTologin'),
     url(r'^home/', include('blog.urls')),
@@ -29,7 +31,7 @@ urlpatterns = [
     url(r'^logout', blogview.logout_auth, name="logout_auth"),
     url(r'^addblog', blogview.addblog, name='addblog'),
     url(r'^saveblog', blogview.saveblog, name='saveblog'),
-    # url(r'^template/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT,}),
+    url(r'blog/(?P<post>\d+)/$', blogview.getblog, name='get_blog'),
 ]
 if settings.DEBUG is True:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

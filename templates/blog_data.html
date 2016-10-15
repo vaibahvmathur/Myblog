@@ -10,7 +10,7 @@
                 <span class="col-md-8">
                     <article class="BlogArticle">
                         <span>
-                            <a href="{% static post.content_url %}" style="color: red">
+                            <a href="{% url 'get_blog' post=post.blog_id %}" style="color: red">
                                 <h3>{{ post.title }}</h3>
                             </a>
                             <div>
@@ -44,7 +44,7 @@
                                 <p>{{ post.description }}</p>
                             </div>
                             <div>
-                                <a href="{% static post.content_url %}">
+                                <a href="{% url 'get_blog' post=post.blog_id %}">
                                     <button type="button" class="btn btn-success">Read More</button>
                                 </a>
                                 {% if post.can_edit %}
