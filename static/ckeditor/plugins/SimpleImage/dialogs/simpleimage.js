@@ -1,5 +1,166 @@
-﻿CKEDITOR.dialog.add("simpleimageDialog",function(e){function h(a){return/data\:image/.test(a)}var f,d,g;d=!1;g=CKEDITOR.config.simpleImageBase64allowed||!1;return{allowedContent:"img[src,alt,width,height]",title:"Insert Image",minWidth:550,minHeight:100,resizable:CKEDITOR.DIALOG_RESIZE_NONE,contents:[{id:"SimpleImage",label:"Details",elements:[{type:"text",label:"Source",id:"edp-src",validate:CKEDITOR.dialog.validate.notEmpty(g?"Source cannot be empty.":"Source can neither be empty nor have Base64 format. Type an external url."),
-setup:function(a){a.getAttribute("src")&&(a.getAttribute("width")&&a.getAttribute("height")&&(d=!0),this.setValue(a.getAttribute("src")))},commit:function(a){a.setAttribute("src",this.getValue())},onChange:function(){if(h(this.getValue()))if(g)if(d)d=!1;else{var a=new Image,b=this.getDialog();a.onload=function(a){a&&(f=this.width/this.height,b.setValueOf("Dimensions","edp-width",this.width),b.setValueOf("Dimensions","edp-height",this.height))};a.src=this.getValue()}else this.setValue("")}},{type:"text",
-label:"Image Description",id:"edp-text-description",setup:function(a){a.getAttribute("alt")&&this.setValue(a.getAttribute("alt"))},commit:function(a){this.getValue()&&a.setAttribute("alt",this.getValue())}}]},{id:"Dimensions",label:"Dimensions (in pixels)",elements:[{type:"text",label:"Width",id:"edp-width",setup:function(a){a.getAttribute("width")&&this.setValue(a.getAttribute("width"))},commit:function(a){this.getValue()&&a.setAttribute("width",this.getValue())},onKeyUp:function(){var a=this.getDialog(),
-b=a.getValueOf("Dimensions","edp-width"),d=a.getValueOf("Dimensions","edp-height"),c=1/f*this.getValue();isNaN(c)||(c=c.toFixed(1),b&&(d&&c!=d)&&a.setValueOf("Dimensions","edp-height",c))}},{type:"text",label:"Height",id:"edp-height",setup:function(a){a.getAttribute("height")&&this.setValue(a.getAttribute("height"))},commit:function(a){this.getValue()&&a.setAttribute("height",this.getValue())},onKeyUp:function(){var a=this.getDialog(),b=a.getValueOf("Dimensions","edp-width"),d=a.getValueOf("Dimensions",
-"edp-height"),c=f*this.getValue();isNaN(c)||(c=c.toFixed(1),b&&(d&&c!=b)&&a.setValueOf("Dimensions","edp-width",c))}}]}],onShow:function(){var a=e.getSelection().getStartElement(),b;a&&(b=a.getAscendant("img",!0));!b||"img"!=b.getName()?(b=e.document.createElement("img"),this.insertMode=!0):this.insertMode=!1;this.element=b;this.setupContent(this.element)},onOk:function(){this.commitContent(this.element);this.insertMode&&e.insertElement(this.element)}}});
+﻿CKEDITOR.dialog.add("simpleimageDialog", function(editor) {
+	var proportionalScale, isSizePreload, isBase64Allowed, validationMessage;
+	isSizePreload = false;
+	isBase64Allowed = CKEDITOR.config.simpleImageBase64allowed || false;
+	validationMessage = isBase64Allowed ? "Source cannot be empty." : "Source can neither be empty nor have Base64 format. Type an external url."
+
+
+	function isBase64URL(url) {
+		return /data\:image/.test(url);
+	}
+
+
+	return {
+		allowedContent: "img[src,alt,width,height]",
+		title: "Insert Image",
+		minWidth: 550,
+		minHeight: 100,
+		resizable: CKEDITOR.DIALOG_RESIZE_NONE,
+		contents:[{
+			id: "SimpleImage",
+			label: "Details",
+			elements:[{
+				type: "text",
+				label: "Source",
+				id: "edp-src",
+				validate: CKEDITOR.dialog.validate.notEmpty( validationMessage ),
+				setup: function (element) {
+					if(element.getAttribute("src")) {
+						if(element.getAttribute("width") && element.getAttribute("height")) {
+							isSizePreload = true;
+						}
+						this.setValue( element.getAttribute("src") );
+					}
+				},
+				commit: function (element) {
+					element.setAttribute("src", this.getValue());
+				},
+				onChange: function () {
+					if(isBase64URL(this.getValue())) {
+						if(!isBase64Allowed) {
+							this.setValue("");
+							return;
+						}
+						if(!isSizePreload) {
+							var img = new Image();
+							var dialog = this.getDialog();
+							img.onload = function(f) {
+								if(f) {
+									proportionalScale = this.width/this.height;
+									dialog.setValueOf("Dimensions","edp-width", this.width);
+									dialog.setValueOf("Dimensions","edp-height", this.height);
+								}
+							};
+							img.src = this.getValue();
+						} else {
+							isSizePreload = false;
+						}
+					}
+				}
+			}, {
+				type: "text",
+				label: "Image Description",
+				id: "edp-text-description",
+				setup: function (element) {
+					if(element.getAttribute("alt")) {
+						this.setValue( element.getAttribute("alt") );
+					}
+				},
+				commit: function (element) {
+					if(this.getValue()) {
+						element.setAttribute("alt", this.getValue());
+					}
+				},
+			}]
+		},
+ 			{
+ 				id:"Dimensions",
+ 				label: "Dimensions (in pixels)",
+				elements:[{
+						type: "text",
+						label: "Width",
+						id: "edp-width",
+						setup: function (element) {
+							if(element.getAttribute("width")) {
+								this.setValue( element.getAttribute("width") );
+							}
+						},
+						commit: function (element) {
+							if(this.getValue()) {
+								element.setAttribute("width", this.getValue());
+							}
+						},
+						onKeyUp: function() {
+							var dialog = this.getDialog();
+							var width  = dialog.getValueOf("Dimensions","edp-width");
+							var height = dialog.getValueOf("Dimensions","edp-height");
+							var newHeight = 1/proportionalScale * this.getValue();
+							if (!isNaN(newHeight)) {
+								newHeight = newHeight.toFixed(1)
+								if(width && height && (newHeight != height)) {
+									dialog.setValueOf("Dimensions","edp-height",newHeight);
+								}
+							}
+						}
+				}, {
+						type:"text",
+						label: "Height",
+						id: "edp-height",
+						setup: function (element) {
+							if(element.getAttribute("height")) {
+								this.setValue( element.getAttribute("height") );
+							}
+						},
+						commit: function (element) {
+							if(this.getValue()) {
+								element.setAttribute("height", this.getValue());
+							}
+						},
+						onKeyUp: function() {
+							var dialog = this.getDialog();
+							var width  = dialog.getValueOf("Dimensions","edp-width");
+							var height = dialog.getValueOf("Dimensions","edp-height");
+							var newWidth = proportionalScale * this.getValue();
+							if (!isNaN(newWidth)) {
+								newWidth = newWidth.toFixed(1);
+								if(width && height && (newWidth != width)) {
+									dialog.setValueOf("Dimensions","edp-width",newWidth);
+								}
+							}
+						}
+				}]
+			}
+		],
+		onShow: function () {
+			var selection = editor.getSelection();
+			var selector = selection.getStartElement()
+			var element;
+
+			if(selector) {
+				 element = selector.getAscendant( 'img', true );
+			}
+
+			if ( !element || element.getName() != 'img' ) {
+				element = editor.document.createElement( 'img' );
+        this.insertMode = true;
+			}
+			else {
+				this.insertMode = false;
+			}
+
+			this.element = element;
+
+			this.setupContent(this.element);
+		},
+		onOk: function() {
+			var dialog = this;
+			var anchorElement = this.element;
+
+			this.commitContent(this.element);
+
+			if(this.insertMode) {
+				editor.insertElement(this.element);
+			}
+		}
+	};
+});

@@ -9,9 +9,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
 from django.db import transaction
 import os
+
+
 path_blog = settings.BLOG_CONTENTS
+
+
 @login_required()
 def HomePage(request):
+
     blog_data = []
     posts = BlogData.objects.all()
     for post in posts:
@@ -24,6 +29,14 @@ def HomePage(request):
                 comment_count=str(post.blogger.post_count) + ' comment',
                 cover_image_url=post.image_url,
                 content_url=post.content_url)
+        try:
+            if request.user.username == post.blogger.user.username:
+                can_edit = 1
+            else:
+                can_edit = 0
+        except:
+            can_edit = 0
+        temp_data.update(can_edit=can_edit)
         blog_data.append(temp_data)
     return render_to_response('blog_data.html', {'blog_data': blog_data})
 
