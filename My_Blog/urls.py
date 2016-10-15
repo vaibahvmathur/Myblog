@@ -14,10 +14,24 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import include, url
+from django.conf.urls.static import static
 from django.contrib import admin
+import blog.views as blogview
+from django.conf import settings
+from django.views.generic import TemplateView
+
 urlpatterns = [
-    url(r'^$', include('blog.urls')),
+    url(r'^$', blogview.redirectTologin, name='redirectTologin'),
     url(r'^home/', include('blog.urls')),
+    # url(r'^Register', include('blog.urls')),
     url(r'^check_avail', include('blog.urls')),
-    url(r'^admin/', admin.site.urls),
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^registerpage/', include('blog.urls')),
+    url(r'^admin/login', blogview.login_auth, name="login_auth"),
+    url(r'^logout', blogview.logout_auth, name="logout_auth"),
+    url(r'^addblog', blogview.addblog, name='addblog'),
+    url(r'^saveblog', blogview.saveblog, name='saveblog'),
+    url(r'blog/(?P<post>\d+)/$', blogview.getblog, name='get_blog'),
 ]
+if settings.DEBUG is True:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

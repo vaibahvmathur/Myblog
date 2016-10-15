@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url
 from blog.views import *
+from django.conf import settings
 urlpatterns = [
-    url(r'^$', HomePage, name='HomePage'),
-    url(r'^home', HomePage, name='HomePage'),
-    url(r'^register', Register, name='Register'),
-    url(r'^check_avail', check_avail, name='check_avail'),
+    url(r'^$', HomePage, name='Homepage'),
+    url(r'^registerpage/Register', Register, name='Register'),
+    url(r'^registerpage/blog', redirectTohome, name='redirectTohome'),
+    url(r'^registerpage/check_avail', check_avail, name='check_avail'),
+    url(r'^registerpage/', registerpage, name='registerpage'),
 ]

@@ -1,58 +1,62 @@
 {% extends 'home.html' %}
 {%load staticfiles%}
 {% block content %}
-    <div class="set-margin-top">
-        <div class="col-md-10 col-md-offset-1 well well-success">
-            <span class="col-md-4">
-                <img src='{% static "images\mysore.jpg" %}' alt="image1" height="100%" width="100%" />
-            </span>
-            <span class="col-md-8">
-                <article class="BlogArticle">
-                    <span>
-                        <a href="#" style="color: red">
-                            <h3>Mysore Trip</h3>
-                        </a>
-                        <div>
-                            <span class="author-info">
-                                <i class="fa fa-user"></i>
-                                <a href="#">
-                                    <abbr title="user" style="border-bottom: none">
-                                        {{ Admin }}
-                                    </abbr>
-                                </a>
-
-                            </span>
-                            <span class="set-margin-top">
-                                <i class="fa fa-clock-o"></i>
-                                <a href="#">
-                                    <abbr title="time" style="border-bottom: none">
-                                        {{ time }}
-                                    </abbr>
-                                </a>
-                            </span>
-                            <span class="comment-info">
-                                <i class="fa fa-comments-o"></i>
-                                <a href="#">
-                                    <abbr title="comments" style="border-bottom: none">
-                                        {{ comment_count }}
-                                    </abbr>
-                                </a>
-                            </span>
-                        </div>
-                        <div class="Blog-Description">
-                            <p> A one-day tour covering Srirangapatna & Mysore.
-                                The destinations include Daria Daulat, Gumbaz, Sri Ranganatha Swamy Temple,
-                                Amba Vilas Palace (Mysore), St. Philomena's Church, Chamundi Hills,
-                                Mysore Zoo, Jagan Mohan Palace Art Gallery and Brindavan Gardens. </p>
-                        </div>
-                        <div>
-                            <a href="#">
-                                <button type="button" class="btn btn-success">Read More</button>
+    {% for post in blog_data %}
+        <div class="set-margin-top">
+            <div class="col-md-10 col-md-offset-1 well well-success">
+                <span class="col-md-4">
+                    <img src='{% static post.cover_image_url %}' alt="  NO IMAGE FOUND!!" onerror="this.src='{% static 'images\journey.jpg' %}';" height="100%" width="100%" />
+                </span>
+                <span class="col-md-8">
+                    <article class="BlogArticle">
+                        <span>
+                            <a href="{% url 'get_blog' post=post.blog_id %}" style="color: red">
+                                <h3>{{ post.title }}</h3>
                             </a>
-                        </div>
-                    <span>
-                </article>
-            </span>
+                            <div>
+                                <span class="author-info">
+                                    <i class="fa fa-user"></i>
+                                    <a href="#">
+                                        <abbr title="user" style="border-bottom: none">
+                                            {{ post.name }}
+                                        </abbr>
+                                    </a>
+
+                                </span>
+                                <span class="set-margin-top">
+                                    <i class="fa fa-clock-o"></i>
+                                    <a href="#">
+                                        <abbr title="time" style="border-bottom: none">
+                                            {{ post.time }}
+                                        </abbr>
+                                    </a>
+                                </span>
+                                <span class="comment-info">
+                                    <i class="fa fa-comments-o"></i>
+                                    <a href="#">
+                                        <abbr title="comments" style="border-bottom: none">
+                                            {{ post.comment_count }}
+                                        </abbr>
+                                    </a>
+                                </span>
+                            </div>
+                            <div class="Blog-Description">
+                                <p>{{ post.description }}</p>
+                            </div>
+                            <div>
+                                <a href="{% url 'get_blog' post=post.blog_id %}">
+                                    <button type="button" class="btn btn-success">Read More</button>
+                                </a>
+                                {% if post.can_edit %}
+                                    <a href="#">
+                                        <button type="button" class="btn btn-success">Edit Post</button>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        <span>
+                    </article>
+                </span>
+            </div>
         </div>
-    </div>
+    {% endfor %}
 {% endblock %}

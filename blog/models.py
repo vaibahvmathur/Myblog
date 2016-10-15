@@ -1,7 +1,5 @@
 from django.db import models
-from django import forms
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext_lazy as _
 
 
 class CommonInfo(models.Model):
@@ -13,58 +11,18 @@ class CommonInfo(models.Model):
 
 
 class UserDetail(CommonInfo):
-    # user_name = models.CharField(max_length=30,unique=True)
-    # first_name = models.CharField(max_length=30)
-    # last_name = models.CharField(max_length=30, blank=True)
-    # email = models.EmailField(max_length=254)
+    user = models.ForeignKey(User, default=None)
+    post_count = models.IntegerField(default=0)
 
-    username = forms.CharField(
-            widget=forms.TextInput(
-                    attrs=dict(
-                            required=True,
-                            max_length=30
-                    )),
-            label=_("Username"))
-    email = forms.EmailField(
-            widget=forms.TextInput(
-                    attrs=dict(
-                            required=True,
-                            max_length=30
-                    )),
-            label=_("Email address"))
-    password1 = forms.CharField(
-            widget=forms.PasswordInput(
-                    attrs=dict(
-                            required=True,
-                            max_length=30,
-                            render_value=False
-                    )),
-            label=_("Password"))
-    password2 = forms.CharField(
-            widget=forms.PasswordInput(
-                    attrs=dict(
-                            required=True,
-                            max_length=30,
-                            render_value=False
-                    )),
-            label=("Password (again)"))
-    name = forms.CharField(
-            widget=forms.TextInput(
-                    attrs=dict(
-                            required=True,
-                            max_length=30
-                    )),
-            label=_("name"))
 
-    def clean_username(self):
-        try:
-            User.objects.get(username__iexact=self.cleaned_data['username'])
-        except User.DoesNotExist:
-            return self.cleaned_data['username']
-        raise forms.ValidationError(_("The username already exists. Please try another one."))
+class BlogData(CommonInfo):
+    blogger = models.ForeignKey(UserDetail, default=None)
+    title = models.CharField(max_length=50)
+    description = models.TextField()
+    content_url = models.CharField(max_length=100)
+    image_url = models.CharField(max_length=100, blank=True, null=True, default=None)
 
-    def clean(self):
-        if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data:
-            if self.cleaned_data['password1'] != self.cleaned_data['password2']:
-                raise forms.ValidationError(_("The two password fields did not match."))
-        return self.cleaned_data
+
+def get_image_path(instance, filename):
+    rel_path = 'templates/blog_pages/{0}/{1}/{2}'.format(instance.blogger.user.username, instance.blogger.post_count, filename)
+    return rel_path

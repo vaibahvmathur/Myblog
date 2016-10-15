@@ -1,0 +1,87 @@
+
+
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}" />
+    {{ form.media }}
+        <script src='{% static "local_files\js\jquery-3.1.0.js" %}'></script>
+        <link rel="stylesheet" href='{% static "font-awesome\css\font-awesome.min.css" %}'/>
+        <link rel="stylesheet" href='{% static "bootstrap\css\bootstrap.css" %}' />
+        <link rel="stylesheet" href='{% static "local_files\css\home.css" %}' />
+        <script src="{% static "local_files\js\local-jquery.js" %}"></script>
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }} login{% endblock %}
+
+{% block usertools %}{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+{% if form.errors and not form.non_field_errors %}
+<p class="errornote">
+{% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+</p>
+{% endif %}
+
+{% if form.non_field_errors %}
+{% for error in form.non_field_errors %}
+<p class="errornote">
+    {{ error }}
+</p>
+{% endfor %}
+{% endif %}
+
+<div id="content-main">
+
+{% if user.is_authenticated %}
+<p class="errornote">
+{% blocktrans trimmed %}
+    You are authenticated as {{ username }}, but are not authorized to
+    access this page. Would you like to login to a different account?
+{% endblocktrans %}
+</p>
+{% endif %}
+
+    <form class="form-horizontal form-hover" action="login"  method="post">
+        <div>
+            <label for="uname">UserName*</label>
+            <div>
+                <input id="uname" class="input-xlarge form-control" type="text" placeholder=" " name="uname" required>
+            </div>
+        </div>
+        <div >
+            <label for="pwd">Password*</label>
+            <div>
+                <input id="pwd" class="input-xlarge form-control" type="password" placeholder=" " name="pwd" required>
+            </div>
+        </div>
+{#        <div>#}
+{#            <div class="checkbox">#}
+{#                <label><input type="checkbox" checked="checked">Remember me</label>#}
+{#            </div>#}
+{#        </div>#}
+        <div class="set-margin-top">
+                <span>
+                    <button type="submit" class="btn btn-warning" tabindex="-1">Login</button>
+                </span>
+                <span>
+                    <a href="{% url 'registerpage' %}">
+                        <button type="button" class="btn btn-success" tabindex="-1" >Free Register</button>
+                    </a>
+                </span>
+        </div>
+    </form>
+
+
+
+</div>
+
+{% endblock %}
