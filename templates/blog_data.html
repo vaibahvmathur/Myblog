@@ -5,7 +5,7 @@
         <div class="set-margin-top">
             <div class="col-md-10 col-md-offset-1 well well-success">
                 <span class="col-md-4">
-                    <img src='{% static post.cover_image_url %}' alt="NO IMAGE FOUND!!" height="100%" width="100%" />
+                    <img src='{% static post.cover_image_url %}' alt="  NO IMAGE FOUND!!" onerror="this.src='{% static 'images\journey.jpg' %}';" height="100%" width="100%" />
                 </span>
                 <span class="col-md-8">
                     <article class="BlogArticle">
@@ -44,9 +44,14 @@
                                 <p>{{ post.description }}</p>
                             </div>
                             <div>
-                                <a href="#">
+                                <a href="{% static post.content_url %}">
                                     <button type="button" class="btn btn-success">Read More</button>
                                 </a>
+                                {% if post.can_edit %}
+                                    <a href="#">
+                                        <button type="button" class="btn btn-success">Edit Post</button>
+                                    </a>
+                                {% endif %}
                             </div>
                         <span>
                     </article>

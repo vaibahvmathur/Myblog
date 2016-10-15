@@ -4,11 +4,12 @@
 {#    <script src="//cdn.ckeditor.com/4.5.11/full/ckeditor.js"></script>#}
 {#    <script src="//cdn.ckeditor.com/4.5.11/standard/ckeditor.js"></script>#}
 
-    <script src="{% static 'ckeditor\ckeditor.js' %}"></script>
+{#    <script src="{% static 'ckeditor\ckeditor.js' %}"></script>#}
 {#    <script src="{% static 'ckeditor\build-config.js' %}"></script>#}
 {#    <script src="{% static 'ckeditor\styles.js' %}"></script>#}
-{#    <script src="{% static 'ckeditor\config.js' %}"></script>#}
 
+    {#    <script src="{% static 'ckeditor\config.js' %}"></script>#}
+<script src="//cdn.ckeditor.com/4.5.11/full/ckeditor.js"></script>
 {% endblock %}
 
 
@@ -37,10 +38,9 @@
                     <script>
                         CKEDITOR.replace( 'blog-full-data', {
                             customConfig: '{% static "ckeditor\config.js" %}',
-                            removeButtons: 'Source'
+                            removeButtons: 'Source',
+                            height  : '5000px',
                         });
-                        CKEDITOR.config.height = '2000px';
-                        CKEDITOR.config.extraPlugins = 'lineheight';
                     </script>
                 </div>
             </form>
