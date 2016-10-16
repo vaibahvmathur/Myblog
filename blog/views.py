@@ -193,8 +193,6 @@ def saveblog(request):
 @csrf_exempt
 @transaction.atomic
 def editblog(request, id):
-    import pdb;
-    pdb.set_trace();
     if request.user.is_authenticated():
         auth_point = transaction.savepoint()
         title = request.POST['blog-title']
