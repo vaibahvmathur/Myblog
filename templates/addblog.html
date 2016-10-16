@@ -33,9 +33,15 @@
                     <textarea id="blog-full-data" name="blog-full-data" required>{{ content }}</textarea>
                     <script>
                         $(document).ready(function(){
-                            CKEDITOR.replace( 'blog-full-data', { removeButtons: 'Source', height  : '5000px'});
+                            CKEDITOR.replace(
+                                    'blog-full-data', {
+                                        removeButtons: 'Source',
+                                        height: '5000px',
+                                        contentsCss: 'p { margin:0px 0px 0px 0px; }'
+                                    }
+                            );
                         });
-                        </script>
+                    </script>
 
                 </div>
             </form>
