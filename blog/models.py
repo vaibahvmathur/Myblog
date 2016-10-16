@@ -21,6 +21,8 @@ class BlogData(CommonInfo):
     description = models.TextField()
     content_url = models.CharField(max_length=100)
     image_url = models.CharField(max_length=100, blank=True, null=True, default=None)
+    post_number = models.IntegerField(default=0)
+    active = models.BooleanField(default=1)
 
 
 def get_image_path(instance, filename):

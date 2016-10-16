@@ -48,7 +48,7 @@
                                     <button type="button" class="btn btn-success">Read More</button>
                                 </a>
                                 {% if post.can_edit %}
-                                    <a href="#">
+                                    <a href="{% url 'update_blog' post=post.blog_id %}">
                                         <button type="button" class="btn btn-success">Edit Post</button>
                                     </a>
                                 {% endif %}

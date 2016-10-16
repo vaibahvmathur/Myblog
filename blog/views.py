@@ -9,11 +9,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
 from django.db import transaction
 import os
+import codecs
+
 
 StartBlock = "{% extends 'home.html' %}\n" \
-             "{%load staticfiles%}" \
-             "\n{% block content %}\n" \
-             "<div class='col-md-12 well well-success help-block'>"
+             "{%load staticfiles%}\n" \
+             "{% block content %}\n" \
+             "<div class='col-md-12 well well-success help-block'>\n"
 
 EndBlock = "\n</div>\n{% endblock %}"
 
@@ -24,7 +26,7 @@ path_blog = settings.BLOG_CONTENTS
 def HomePage(request):
 
     blog_data = []
-    posts = BlogData.objects.all()
+    posts = BlogData.objects.filter(active=1)
     for post in posts:
         temp_data = {}
         temp_data.update(
@@ -180,6 +182,72 @@ def saveblog(request):
         this_post.description = description
         this_post.content_url = path_to_user_blog_save
         this_post.image_url = path_to_user_blog_image_save
+        this_post.post_number = post_number
+        this_post.save()
+    else:
+        transaction.savepoint_rollback(auth_point)
+    return HttpResponseRedirect('/home')
+
+
+@login_required()
+@csrf_exempt
+@transaction.atomic
+def editblog(request, id):
+    import pdb;
+    pdb.set_trace();
+    if request.user.is_authenticated():
+        auth_point = transaction.savepoint()
+        title = request.POST['blog-title']
+        description = request.POST['blog-description']
+        blog_content = str(request.POST['blog-full-data'])
+        content = str(StartBlock) + str(blog_content) + str(EndBlock)
+        try:
+            image = request.FILES['blog-image']
+        except:
+            image = None
+
+        this_post = BlogData.objects.get(id=int(id))
+        logged_user = this_post.blogger.user
+        logged_user_name = logged_user.username
+        post_number = this_post.post_number
+        today = (datetime.datetime.now()).strftime('%d-%m-%Y')
+        extention_content = '.html'
+        file_name = str(title) + '_' + today + extention_content
+        path_to_dir = str(logged_user_name) + '/' + str(post_number)
+
+        path_to_post_number = "templates/blog_pages/" + path_to_dir
+        path_to_user_blog = path_to_post_number + '/' + str(file_name)
+        path_to_post_number_save = "blog_pages/" + path_to_dir
+        path_to_user_blog_save = path_to_post_number_save + '/' + str(file_name)
+
+        if os.path.exists(path_to_post_number):
+            import shutil
+            shutil.rmtree(path_to_post_number)
+        os.makedirs(path_to_post_number)
+        abs_path = os.path.join(os.path.dirname('__file__'), path_to_user_blog).replace("\\", '/')
+        with open(abs_path, 'w') as destination:
+            destination.write(content)
+        destination.close()
+
+        try:
+            path_to_post_number = "static/blog_pages/" + path_to_dir
+            path_to_user_blog_image = path_to_post_number + '/' + str(image.name)
+            path_to_user_blog_image_save = path_to_post_number_save + '/' + str(image.name)
+            if os.path.exists(path_to_post_number):
+                import shutil
+                shutil.rmtree(path_to_post_number)
+            os.makedirs(path_to_post_number)
+            abs_path = os.path.join(os.path.dirname('__file__'), path_to_user_blog_image).replace("\\", '/')
+            with open(abs_path, 'wb') as destination:
+                destination.write(image.read())
+            destination.close()
+            this_post.image_url = path_to_user_blog_image_save
+        except:
+            path_to_user_blog_image_save = None
+
+        this_post.title = title
+        this_post.description = description
+        this_post.content_url = path_to_user_blog_save
         this_post.save()
     else:
         transaction.savepoint_rollback(auth_point)
@@ -194,3 +262,28 @@ def getblog(request, post):
     except BlogData.DoesNotExist:
         return HttpResponseRedirect('/home')
     return render_to_response(blog.content_url, {})
+
+
+@login_required()
+@csrf_exempt
+def updateblog(request, post):
+    try:
+        blog = BlogData.objects.get(id=int(post))
+        abs_path = os.path.join(os.path.dirname('__file__'), 'templates/'+blog.content_url).replace("\\", '/')
+        contents = (codecs.open(abs_path, 'rb', encoding='utf-8')).readlines()[4:-2]
+        content = ''
+        for line in contents:
+            content += str(line)
+
+    except BlogData.DoesNotExist:
+        return HttpResponseRedirect('/home')
+    return render_to_response(
+            'addblog.html',
+            {
+                'title': blog.title,
+                'description': blog.description,
+                'content': content,
+                'update': 1,
+                'id': blog.id
+            }
+    )

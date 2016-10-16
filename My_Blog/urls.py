@@ -31,7 +31,10 @@ urlpatterns = [
     url(r'^logout', blogview.logout_auth, name="logout_auth"),
     url(r'^addblog', blogview.addblog, name='addblog'),
     url(r'^saveblog', blogview.saveblog, name='saveblog'),
-    url(r'blog/(?P<post>\d+)/$', blogview.getblog, name='get_blog'),
+    url(r'^blog/(?P<post>\d+)/$', blogview.getblog, name='get_blog'),
+    url(r'^update/(?P<post>\d+)/$', blogview.updateblog, name='update_blog'),
+    url(r'^editblog/(?P<id>\d+)/$', blogview.editblog, name='editblog'),
+
 ]
 if settings.DEBUG is True:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

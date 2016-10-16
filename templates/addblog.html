@@ -1,32 +1,28 @@
 {% extends 'home.html' %}
 {%load staticfiles%}
+
 {% block script %}
-{#    <script src="//cdn.ckeditor.com/4.5.11/full/ckeditor.js"></script>#}
-{#    <script src="//cdn.ckeditor.com/4.5.11/standard/ckeditor.js"></script>#}
-
-{#    <script src="{% static 'ckeditor\ckeditor.js' %}"></script>#}
-{#    <script src="{% static 'ckeditor\build-config.js' %}"></script>#}
-{#    <script src="{% static 'ckeditor\styles.js' %}"></script>#}
-
-    {#    <script src="{% static 'ckeditor\config.js' %}"></script>#}
-<script src="//cdn.ckeditor.com/4.5.11/full/ckeditor.js"></script>
+    <script src="//cdn.ckeditor.com/4.5.11/full/ckeditor.js"></script>
 {% endblock %}
-
 
 {% block content %}
     <div class="set-margin-top">
         <div class="col-md-10 col-md-offset-1 well well-success">
-            <form class="register-form form-horizontal" method="post" action="saveblog"  enctype="multipart/form-data">
+            {% if update %}
+                <form class="register-form form-horizontal" method="post" action="{% url 'editblog' id %}"  enctype="multipart/form-data">
+            {% else %}
+                <form class="register-form form-horizontal" method="post" action="saveblog"  enctype="multipart/form-data">
+            {% endif %}
                 <div >
                     <input type="submit" value="Save Blog" class="btn btn-success width-20">
                 </div>
                 <label class="set-margin-top-20" for="blog-title">Title</label>
                 <div >
-                    <input class="width-50" type="text" name="blog-title" id="blog-title" required>
+                    <input class="width-50" type="text" value="{{ title }}" name="blog-title" id="blog-title" required>
                 </div>
                 <label class="set-margin-top" for="blog-description">Short Description</label>
                 <div>
-                    <textarea name="blog-description" id="blog-description" cols="72" rows="4" required></textarea>
+                    <textarea name="blog-description"  id="blog-description" cols="72" rows="4" required>{{ description }}</textarea>
                 </div>
                 <label class="set-margin-top" for="blog-image">Cover Image</label>
                 <div>
@@ -34,14 +30,13 @@
                 </div>
                 <label class="set-margin-top-20" for="blog-full-data">Content</label>
                 <div>
-                    <textarea id="blog-full-data" name="blog-full-data" required></textarea>
+                    <textarea id="blog-full-data" name="blog-full-data" required>{{ content }}</textarea>
                     <script>
-                        CKEDITOR.replace( 'blog-full-data', {
-                            customConfig: '{% static "ckeditor\config.js" %}',
-                            removeButtons: 'Source',
-                            height  : '5000px',
+                        $(document).ready(function(){
+                            CKEDITOR.replace( 'blog-full-data', { removeButtons: 'Source', height  : '5000px'});
                         });
-                    </script>
+                        </script>
+
                 </div>
             </form>
         </div>
