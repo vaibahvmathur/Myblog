@@ -10,6 +10,7 @@ from django.conf import settings
 from django.db import transaction
 import os
 import codecs
+import shutil
 
 
 StartBlock = "{% extends 'home.html' %}\n" \
@@ -219,7 +220,6 @@ def editblog(request, id):
         path_to_user_blog_save = path_to_post_number_save + '/' + str(file_name)
 
         if os.path.exists(path_to_post_number):
-            import shutil
             shutil.rmtree(path_to_post_number)
         os.makedirs(path_to_post_number)
         abs_path = os.path.join(os.path.dirname('__file__'), path_to_user_blog).replace("\\", '/')
@@ -232,7 +232,6 @@ def editblog(request, id):
             path_to_user_blog_image = path_to_post_number + '/' + str(image.name)
             path_to_user_blog_image_save = path_to_post_number_save + '/' + str(image.name)
             if os.path.exists(path_to_post_number):
-                import shutil
                 shutil.rmtree(path_to_post_number)
             os.makedirs(path_to_post_number)
             abs_path = os.path.join(os.path.dirname('__file__'), path_to_user_blog_image).replace("\\", '/')
