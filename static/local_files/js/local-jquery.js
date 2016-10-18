@@ -104,7 +104,7 @@ function saveRegisterdata(username,email,name,password){
         }
 
     }).fail(function() {
-        alert("this is fail register")
+        alert("Error while registering")
     });
 
 }

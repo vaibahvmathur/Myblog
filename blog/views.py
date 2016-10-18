@@ -284,3 +284,25 @@ def updateblog(request, post):
                 'id': blog.id
             }
     )
+
+
+@login_required()
+@transaction.atomic
+@csrf_exempt
+def deleteblog(request):
+    save_point = transaction.savepoint()
+    response_dict = {}
+    if request.method == 'POST':
+        try:
+            id = str(request.POST['id'])
+            blog = BlogData.objects.get(id=int(id))
+            user = blog.blogger
+            post_count = int(user.post_count)
+            user.post_count -= 1
+            user.save()
+            blog.delete()
+            response_dict.update({'message': "success"})
+        except BlogData.DoesNotExist:
+            transaction.savepoint_rollback(save_point)
+            response_dict.update({'message': "error"})
+    return HttpResponse(json.dumps(response_dict), content_type='application/javascript')
