@@ -1,5 +1,8 @@
 {% extends 'home.html' %}
 {%load staticfiles%}
+{% block script %}
+    <script src="{% static "local_files\js\blog_data.js" %}"></script>
+{% endblock %}
 {% block content %}
     {% for post in blog_data %}
         <div class="set-margin-top">
@@ -49,14 +52,37 @@
                                 </a>
                                 {% if post.can_edit %}
                                     <a href="{% url 'update_blog' post=post.blog_id %}">
-                                        <button type="button" class="btn btn-success">Edit Post</button>
+                                        <button type="button" class="btn btn-success">
+                                            <span class="glyphicon glyphicon-edit"></span> Edit Post
+                                        </button>
                                     </a>
+                                    <button type="button" id = "{{ post.blog_id }}" class="btn btn-info delete_btn">
+                                        <span class="glyphicon glyphicon-edit"></span> Delete
+                                    </button>
                                 {% endif %}
                             </div>
-                        <span>
+                        </span>
                     </article>
                 </span>
             </div>
         </div>
     {% endfor %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="confirm_delete" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete Blog ?</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" id="delete_blog">Delete</button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 {% endblock %}

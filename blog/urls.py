@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^registerpage/blog', redirectTohome, name='redirectTohome'),
     url(r'^registerpage/check_avail', check_avail, name='check_avail'),
     url(r'^registerpage/', registerpage, name='registerpage'),
+    url(r'^deleteblog', deleteblog, name='deleteblog'),
 ]
