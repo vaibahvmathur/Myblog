@@ -124,3 +124,7 @@
 .width-20 {
     width: 20%;
 }
+.main-active{
+    border-width: 2px;
+    border-color: #2c3af4;
+}

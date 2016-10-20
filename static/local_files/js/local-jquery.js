@@ -1,5 +1,17 @@
 
 $(document).ready(function() {
+    path = window.location.pathname;
+    $('#HomePageNavItem').children().children().removeClass('main-active');
+    if(path == '/home/')
+    {
+        $('.home a').addClass('main-active')
+    }
+    else if(path == '/addblog')
+    {
+
+        $('.addblog a').addClass('main-active')
+    }
+
     /* Infinite Scroll */
     var win = $(window);
     // Each time the user scrolls
@@ -13,8 +25,8 @@ $(document).ready(function() {
     $(".register-form-submit").on("click", function(){
         var availability = "";
         var Passmatch = "";
-        var Emailmatch = ""
-        var usernamematch = ""
+        var Emailmatch = "";
+        var usernamematch = "";
         var element = $(this);
         var User_name = $(this).closest(".register-form").find("#usrname");
         //availability = check_availability(User_name.val());
@@ -49,11 +61,11 @@ $(document).ready(function() {
                 Emailmatch = "error"
             }
             if (firstname.val() != "" ){
-                checkNamecss('success')
+                checkNamecss('success');
                 usernamematch = "success"
             }
             else{
-                checkNamecss('error')
+                checkNamecss('error');
                 usernamematch = "error"
             }
             if(availability == "success" && Passmatch == "success" && Emailmatch == "success" && usernamematch == "success")
@@ -75,9 +87,9 @@ $(document).ready(function() {
     });
 });//document.ready function
 
-    function onFocusToUsername(element) {
+function onFocusToUsername(element) {
         $(element).closest("div").find(".user-exist-tag").addClass("hidden");
-    }
+}
 function saveRegisterdata(username,email,name,password){
     $.ajax({
         type: "POST", 		//GET or POST or PUT or DELETE verb

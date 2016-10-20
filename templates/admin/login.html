@@ -12,6 +12,8 @@
         <link rel="stylesheet" href='{% static "bootstrap\css\bootstrap.css" %}' />
         <link rel="stylesheet" href='{% static "local_files\css\home.css" %}' />
         <script src="{% static "local_files\js\local-jquery.js" %}"></script>
+        <script src="{% static "local_files\js\fb.js" %}"></script>
+
 {% endblock %}
 
 {% block bodyclass %}{{ block.super }} login{% endblock %}
@@ -49,7 +51,6 @@
 {% endblocktrans %}
 </p>
 {% endif %}
-
     <form class="form-horizontal form-hover" action="login"  method="post">
         <div>
             <label for="uname">UserName*</label>

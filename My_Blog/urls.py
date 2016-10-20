@@ -18,6 +18,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 import blog.views as blogview
 from django.conf import settings
+from django.views.generic import RedirectView
+
 from django.views.generic import TemplateView
 
 urlpatterns = [
