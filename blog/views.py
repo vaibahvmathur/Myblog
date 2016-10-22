@@ -23,9 +23,8 @@ EndBlock = "\n</div>\n{% endblock %}"
 path_blog = settings.BLOG_CONTENTS
 
 
-@login_required()
+# @login_required()
 def HomePage(request):
-
     blog_data = []
     posts = BlogData.objects.filter(active=1)
     for post in posts:
@@ -48,9 +47,14 @@ def HomePage(request):
                 can_edit = 0
         except:
             can_edit = 0
+        try:
+            temp = authenticate(username=request.user.username, password=request.user.password)
+            not_logged = 0
+        except:
+            not_logged = 1
         temp_data.update(can_edit=can_edit)
         blog_data.append(temp_data)
-    return render_to_response('blog_data.html', {'blog_data': blog_data})
+    return render_to_response('blog_data.html', {'blog_data': blog_data, 'not_logged':not_logged})
 
 
 @csrf_exempt
@@ -118,7 +122,7 @@ def login_auth(request):
 @csrf_exempt
 def logout_auth(requset):
     logout(requset)
-    return HttpResponseRedirect('/home')
+    return HttpResponseRedirect('/admin')
 
 
 @login_required()

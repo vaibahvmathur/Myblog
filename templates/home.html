@@ -28,10 +28,14 @@
                 <div class="navbar navbar-default col-md-6" id="HomePageNavBar">
                     <ul class="nav navbar-nav nav-hover" id="HomePageNavItem">
                         <li class="home"><a href='/home' class="menu btn btn-font-size btn-border btn-md link-align main-active">Home</a></li >
-                        <li class="addblog"><a href='/addblog' class="menu btn btn-font-size btn-border btn-md link-align">Add Blog</a></li>
-                        <li class="contacts"><a href='/home' class="menu btn btn-font-size btn-border btn-md link-align">Contact</a></li>
-                        <li class="logout"><a href='/logout' class="menu btn btn-font-size btn-border btn-md link-align">Logout</a></li>
-
+                        {% if not_logged %}
+                            <li class="contacts"><a href='/home' class="menu btn btn-font-size btn-border btn-md link-align">Contact</a></li>
+                            <li class="login"><a href='/admin' class="menu btn btn-font-size btn-border btn-md link-align">Log In</a></li>
+                        {% else %}
+                            <li class="addblog"><a href='/addblog' class="menu btn btn-font-size btn-border btn-md link-align">Add Blog</a></li>
+                            <li class="contacts"><a href='/home' class="menu btn btn-font-size btn-border btn-md link-align">Contact</a></li>
+                            <li class="logout"><a href='/logout' class="menu btn btn-font-size btn-border btn-md link-align">Logout</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
