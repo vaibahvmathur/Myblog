@@ -50,11 +50,18 @@ def HomePage(request):
         try:
             temp = authenticate(username=request.user.username, password=request.user.password)
             not_logged = 0
+            loggedname = request.user.username
         except:
             not_logged = 1
+            loggedname = 'Guest'
         temp_data.update(can_edit=can_edit)
         blog_data.append(temp_data)
-    return render_to_response('blog_data.html', {'blog_data': blog_data, 'not_logged':not_logged})
+    return render_to_response(
+            'blog_data.html', {
+                'blog_data': blog_data,
+                'not_logged': not_logged,
+                'loggedname': loggedname
+            })
 
 
 @csrf_exempt
@@ -127,7 +134,11 @@ def logout_auth(requset):
 
 @login_required()
 def addblog(request):
-    return render_to_response('addblog.html', {})
+    try:
+        loggedname = request.user.username
+    except:
+        loggedname = 'Guest'
+    return render_to_response('addblog.html', {'loggedname': loggedname})
 
 
 @login_required()
@@ -255,14 +266,22 @@ def editblog(request, id):
     return HttpResponseRedirect('/home')
 
 
-@login_required()
+# @login_required()
 @csrf_exempt
 def getblog(request, post):
     try:
         blog = BlogData.objects.get(id=int(post))
+
     except BlogData.DoesNotExist:
         return HttpResponseRedirect('/home')
-    return render_to_response(blog.content_url, {})
+    try:
+        temp = authenticate(username=request.user.username, password=request.user.password)
+        not_logged = 0
+        loggedname = request.user.username
+    except:
+        not_logged = 1
+        loggedname = 'Guest'
+    return render_to_response(blog.content_url, {'loggedname': loggedname,'not_logged': not_logged})
 
 
 @login_required()
@@ -278,6 +297,10 @@ def updateblog(request, post):
 
     except BlogData.DoesNotExist:
         return HttpResponseRedirect('/home')
+    try:
+        loggedname = request.user.username
+    except:
+        loggedname = "Guest"
     return render_to_response(
             'addblog.html',
             {
@@ -285,7 +308,8 @@ def updateblog(request, post):
                 'description': blog.description,
                 'content': content,
                 'update': 1,
-                'id': blog.id
+                'id': blog.id,
+                'loggedname': loggedname
             }
     )
 
