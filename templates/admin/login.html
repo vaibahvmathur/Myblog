@@ -42,15 +42,6 @@
 {% endif %}
 
 <div id="content-main">
-
-{% if user.is_authenticated %}
-<p class="errornote">
-{% blocktrans trimmed %}
-    You are authenticated as {{ username }}, but are not authorized to
-    access this page. Would you like to login to a different account?
-{% endblocktrans %}
-</p>
-{% endif %}
     <form class="form-horizontal form-hover" action="login"  method="post">
         <div>
             <label for="uname">UserName*</label>
@@ -64,23 +55,22 @@
                 <input id="pwd" class="input-xlarge form-control" type="password" placeholder=" " name="pwd" required>
             </div>
         </div>
-{#        <div>#}
-{#            <div class="checkbox">#}
-{#                <label><input type="checkbox" checked="checked">Remember me</label>#}
-{#            </div>#}
-{#        </div>#}
         <div class="set-margin-top">
                 <span>
-                    <button type="submit" class="btn btn-warning" tabindex="-1">Login</button>
+                    <button  style="width: 50%" type="submit" class="btn btn-warning" tabindex="-1">Login</button>
                 </span>
-                <span>
+                <span class="set-margin-top">
                     <a href="{% url 'registerpage' %}">
-                        <button type="button" class="btn btn-success" tabindex="-1" >Free Register</button>
+                        <button  style="width: 48%" type="button" class="btn btn-success" tabindex="-1" >Free Register</button>
                     </a>
                 </span>
         </div>
     </form>
-
+    <div class="set-margin-top">
+        <a href='/home'>
+            <button type="button" class="btn btn-primary form-control" tabindex="-1" >Skip To Site</button>
+        </a>
+    </div>
 
 
 </div>
