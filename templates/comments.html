@@ -1,0 +1,63 @@
+{% load staticfiles %}
+<html>
+<link rel="stylesheet" href='{% static "local_files\css\comments.css" %}' />
+<body>
+<br/>
+<hr class="row"/>
+<!------------container------->
+<div class="container">
+<!-------Wrap------------>
+    <div id="wrap">
+        <div id="main">
+            <div class="row">
+                <div class="col-md-7">
+                    <h3 class="second_heading"><b>Comments and Responses</b></h3>
+                </div>
+                <div class="col-md-12" style="margin-top: -50px">
+                    <div id="upper_blank"></div>
+                </div>
+            </div>
+        </div>
+        <p>Your email address will not be published. Required fields are marked *</p>
+<!------------Form Start---------->
+        <div id='form'>
+            <div class="row">
+                <div class="col-md-12" style="margin-left: -20px">
+                    <form action="" method="POST" id="commentform">
+                        <div id="comment-name" class="form-row">
+                            <input type = "text" placeholder = "Name (required)" name = "dname"  id = "name" >
+                        </div>
+                        <div id="comment-email" class="form-row">
+                            <input type = "text" placeholder = "Mail (will not be published) (required)" name = "demail"  id = "email">
+                        </div>
+                        <div id="comment-message" class="form-row">
+                            <textarea name = "comment" placeholder = "Message" id = "comment" ></textarea>
+                        </div>
+                        <a href="#"><input type="submit" name="dsubmit" id="commentSubmit" value="Submit Comment"></a>
+                    </form>
+                    <hr class="row"/>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-------------------Reply Section------->
+    <div id="second" class="col-md-8">
+        <div class="row">
+            <div class="col-md-5">
+                <h3 class="second_heading" style="margin-left: 33px"><b>Leave a Reply</b></h3>
+            </div>
+            <div class="col-md-12" style="margin-top: -60px">
+                <div class="blank col-md-12"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="middle" class="col-md-8" style="margin-left: 65px">
+        <form>
+            <a href="#"><input type = "text" value = "reply" name = "dreply" id = "inner_reply"></a>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>
