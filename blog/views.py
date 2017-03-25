@@ -326,9 +326,16 @@ def deleteblog(request):
             blog = BlogData.objects.get(id=int(id))
             user = blog.blogger
             post_count = int(user.post_count)
+            logged_user = user.user
+            logged_user_name = logged_user.username
+            post_number = blog.post_number
             user.post_count -= 1
             user.save()
             blog.delete()
+            path_to_dir = str(logged_user_name) + '/' + str(post_number)
+            path_to_post_number = "templates/blog_pages/" + path_to_dir
+            if os.path.exists(path_to_post_number):
+                shutil.rmtree(path_to_post_number)
             response_dict.update({'message': "success"})
         except BlogData.DoesNotExist:
             transaction.savepoint_rollback(save_point)
