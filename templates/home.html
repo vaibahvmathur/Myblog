@@ -17,7 +17,7 @@
             {% endblock %}
     </head>
     
-    <body>
+    <body class="body-color">
         <div class="container">
             <div class="row" id="BodyContainer">
                 <div class="col-md-5">
@@ -55,9 +55,12 @@
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <strong class="sucess-message">Success!</strong>
             </div>
-            {% block content %}
-            {% endblock %}
         </div>
-
+        <div class="container content-color">
+            <div>
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
     </body>
 </html>

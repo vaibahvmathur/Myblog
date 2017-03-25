@@ -137,3 +137,13 @@ hr {
     border-style: inset;
     border-width: 1px;
 }
+
+.content-color{
+    width: 87%;
+    height: 87%;
+    background-color: #1f1f1f;
+}
+
+.body-color{
+    background-color: black;
+}
