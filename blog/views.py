@@ -18,7 +18,7 @@ StartBlock = "{% extends 'home.html' %}\n" \
              "{% block content %}\n" \
              "<div class='col-md-12 well well-success help-block'>\n"
 
-EndBlock = "\n</div>\n{% endblock %}"
+EndBlock = "\n{% include 'comments.html' %}\n</div>\n{% endblock %}"
 
 path_blog = settings.BLOG_CONTENTS
 
