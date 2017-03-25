@@ -147,3 +147,7 @@ hr {
 .body-color{
     background-color: black;
 }
+
+body.login{
+    background-color: #1f1f1f;
+}
