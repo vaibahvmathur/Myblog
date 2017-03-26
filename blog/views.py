@@ -18,7 +18,7 @@ StartBlock = "{% extends 'home.html' %}\n" \
              "{% block content %}\n" \
              "<div class='col-md-12 well well-success help-block'>\n"
 
-EndBlock = "\n{% include 'comments.html' %}\n</div>\n{% endblock %}"
+EndBlock = "\n</div>\n{% endblock %}"
 
 path_blog = settings.BLOG_CONTENTS
 
@@ -123,7 +123,6 @@ def login_auth(request):
         return HttpResponseRedirect('/home')
     else:
         return HttpResponseRedirect('/home')
-
 
 
 @csrf_exempt
@@ -241,7 +240,6 @@ def editblog(request, id):
         with open(abs_path, 'w') as destination:
             destination.write(content)
         destination.close()
-
         try:
             path_to_post_number = "static/blog_pages/" + path_to_dir
             path_to_user_blog_image = path_to_post_number + '/' + str(image.name)
@@ -271,7 +269,6 @@ def editblog(request, id):
 def getblog(request, post):
     try:
         blog = BlogData.objects.get(id=int(post))
-
     except BlogData.DoesNotExist:
         return HttpResponseRedirect('/home')
     try:
@@ -281,7 +278,14 @@ def getblog(request, post):
     except:
         not_logged = 1
         loggedname = 'Guest'
-    return render_to_response(blog.content_url, {'loggedname': loggedname,'not_logged': not_logged})
+    return render_to_response(
+            blog.content_url,
+            {
+                'show_comment': 1,
+                'loggedname': loggedname,
+                'not_logged': not_logged
+            }
+    )
 
 
 @login_required()

@@ -60,6 +60,11 @@
             <div>
                 {% block content %}
                 {% endblock %}
+                {% if show_comment %}
+                <div class='col-md-12 well well-success help-block'>
+                    {% include 'comments.html' %}
+                </div>
+                {% endif %}
             </div>
         </div>
     </body>
