@@ -23,7 +23,7 @@ EndBlock = "\n</div>\n{% endblock %}"
 path_blog = settings.BLOG_CONTENTS
 
 
-# @login_required()
+
 def HomePage(request):
     blog_data = []
     posts = BlogData.objects.filter(active=1)
@@ -48,7 +48,7 @@ def HomePage(request):
         except:
             can_edit = 0
         try:
-            temp = authenticate(username=request.user.username, password=request.user.password)
+            authenticate(username=request.user.username, password=request.user.password)
             not_logged = 0
             loggedname = request.user.username
         except:
@@ -144,8 +144,8 @@ def addblog(request):
 @csrf_exempt
 @transaction.atomic
 def saveblog(request):
+    auth_point = transaction.savepoint()
     if request.user.is_authenticated():
-        auth_point = transaction.savepoint()
         title = request.POST['blog-title']
         description = request.POST['blog-description']
         blog_content = str(request.POST['blog-full-data'])
@@ -154,7 +154,6 @@ def saveblog(request):
             image = request.FILES['blog-image']
         except:
             image = None
-
         logged_user = request.user
         logged_user_name = logged_user.username
         blogger = UserDetail.objects.get(user=logged_user)
@@ -163,19 +162,16 @@ def saveblog(request):
         extention_content = '.html'
         file_name = str(title) + '_' + today + extention_content
         path_to_dir = str(logged_user_name) + '/' + str(post_number)
-
         path_to_post_number = "templates/blog_pages/" + path_to_dir
         path_to_user_blog = path_to_post_number + '/' + str(file_name)
         path_to_post_number_save = "blog_pages/" + path_to_dir
         path_to_user_blog_save = path_to_post_number_save + '/' + str(file_name)
-
         if not os.path.exists(path_to_post_number):
             os.makedirs(path_to_post_number)
         abs_path = os.path.join(os.path.dirname('__file__'), path_to_user_blog).replace("\\", '/')
         with open(abs_path, 'w') as destination:
             destination.write(content)
         destination.close()
-
         try:
             path_to_post_number = "static/blog_pages/" + path_to_dir
             path_to_user_blog_image = path_to_post_number + '/' + str(image.name)
@@ -188,7 +184,6 @@ def saveblog(request):
             destination.close()
         except:
             path_to_user_blog_image_save = None
-
         blogger.post_count = post_number
         blogger.save()
         this_post = BlogData()
@@ -208,8 +203,8 @@ def saveblog(request):
 @csrf_exempt
 @transaction.atomic
 def editblog(request, id):
+    auth_point = transaction.savepoint()
     if request.user.is_authenticated():
-        auth_point = transaction.savepoint()
         title = request.POST['blog-title']
         description = request.POST['blog-description']
         blog_content = str(request.POST['blog-full-data'])
@@ -218,7 +213,6 @@ def editblog(request, id):
             image = request.FILES['blog-image']
         except:
             image = None
-
         this_post = BlogData.objects.get(id=int(id))
         logged_user = this_post.blogger.user
         logged_user_name = logged_user.username
@@ -227,12 +221,10 @@ def editblog(request, id):
         extention_content = '.html'
         file_name = str(title) + '_' + today + extention_content
         path_to_dir = str(logged_user_name) + '/' + str(post_number)
-
         path_to_post_number = "templates/blog_pages/" + path_to_dir
         path_to_user_blog = path_to_post_number + '/' + str(file_name)
         path_to_post_number_save = "blog_pages/" + path_to_dir
         path_to_user_blog_save = path_to_post_number_save + '/' + str(file_name)
-
         if os.path.exists(path_to_post_number):
             shutil.rmtree(path_to_post_number)
         os.makedirs(path_to_post_number)
@@ -253,8 +245,7 @@ def editblog(request, id):
             destination.close()
             this_post.image_url = path_to_user_blog_image_save
         except:
-            path_to_user_blog_image_save = None
-
+            pass
         this_post.title = title
         this_post.description = description
         this_post.content_url = path_to_user_blog_save
@@ -264,7 +255,6 @@ def editblog(request, id):
     return HttpResponseRedirect('/home')
 
 
-# @login_required()
 @csrf_exempt
 def getblog(request, post):
     try:
@@ -272,7 +262,7 @@ def getblog(request, post):
     except BlogData.DoesNotExist:
         return HttpResponseRedirect('/home')
     try:
-        temp = authenticate(username=request.user.username, password=request.user.password)
+        authenticate(username=request.user.username, password=request.user.password)
         not_logged = 0
         loggedname = request.user.username
     except:
@@ -298,7 +288,6 @@ def updateblog(request, post):
         content = ''
         for line in contents:
             content += str(line)
-
     except BlogData.DoesNotExist:
         return HttpResponseRedirect('/home')
     try:
@@ -329,7 +318,6 @@ def deleteblog(request):
             id = str(request.POST['id'])
             blog = BlogData.objects.get(id=int(id))
             user = blog.blogger
-            post_count = int(user.post_count)
             logged_user = user.user
             logged_user_name = logged_user.username
             post_number = blog.post_number
