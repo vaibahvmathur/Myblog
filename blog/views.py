@@ -333,3 +333,14 @@ def deleteblog(request):
             transaction.savepoint_rollback(save_point)
             response_dict.update({'message': "error"})
     return HttpResponse(json.dumps(response_dict), content_type='application/javascript')
+
+
+@login_required()
+@csrf_exempt
+def userprofile(request):
+    try:
+        loggedname = request.user.username
+    except:
+        loggedname = 'Guest'
+    return render_to_response('profile.html', {'loggedname': loggedname})
+
